@@ -16,10 +16,10 @@ build_contrasts_cluster <- function(names){
     for (j in rownames(df)){
         for (i in colnames(df)){
             if (startsWith(j, gsub("_vs_rest.*", "", i))){
-                df[j,i] <- 1/4
+                df[j, i] <- 1/4
             }
             else{
-                df[j,i] <- 1/-(length(rownames(df))-4)
+                df[j, i] <- 1/-(length(rownames(df))-4)
             }
         }
     }
