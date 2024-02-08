@@ -1,1 +1,4 @@
-install package: install_github("samuelwald/swald")
+Install package: 
+``` 
+devtools::install_github("samuelwald/swald")
+```
