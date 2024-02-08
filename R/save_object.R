@@ -1,7 +1,7 @@
 #' Save your file without overwriting it
 #' @param object_name Name of your object you want to save
 #' @param path_to_object Path where you want to store your object, needs to contain the name for your object
-#' @param overwrite TRUE for overwriting, default is FALSE hello
+#' @param overwrite TRUE for overwriting, default is FALSE
 
 
 #' @export
