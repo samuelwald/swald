@@ -9,6 +9,8 @@ marker_list(object, marker_genes, genes_only = FALSE, n = "inf")
 \arguments{
 \item{object}{Seurat object}
 
+\item{marker_genes}{Results of FindAllMarkers}
+
 \item{genes_only}{Logical if True only gene names are returned}
 
 \item{n}{Number of genes}
