@@ -28,6 +28,8 @@ build_contrasts_cluster <- function(names){
     
 }
 
+#' Build contrasts for timepoints
+
 #' @param n_timepoints Number of timepoints
 
 #' @export 
