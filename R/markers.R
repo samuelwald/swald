@@ -5,12 +5,12 @@
 #' @param n Number of genes
 #' @export 
 
-marker_list <- function(object, genes_only = FALSE, n = "inf"){
+marker_list <- function(object, marker_genes, genes_only = FALSE, n = "inf"){
     
     # Extract marker list
     marker_list <- list()
     for (i in levels(object)){
-        marker_list[[i]] <- subset(so_marker, cluster == i)
+        marker_list[[i]] <- subset(marker_genes, cluster == i)
         if (n != "inf"){
             marker_list[[i]] <- marker_list[[i]][1:n,]
         }

@@ -4,7 +4,7 @@
 \alias{marker_list}
 \title{Extract marker genes as dataframe or gene list}
 \usage{
-marker_list(object, genes_only = FALSE, n = "inf")
+marker_list(object, marker_genes, genes_only = FALSE, n = "inf")
 }
 \arguments{
 \item{object}{Seurat object}
