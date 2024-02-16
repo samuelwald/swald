@@ -4,9 +4,10 @@
 #' @param genes_only Logical if True only gene names are returned
 #' @param n Number of genes
 #' @param marker_genes Results of FindAllMarkers
+#' @param per_cluster Logical, if TRUE marker_list contains df for each cluster seperately
 #' @export 
 
-marker_list <- function(object, marker_genes, genes_only = FALSE, n = "inf"){
+marker_list <- function(object, marker_genes, genes_only = FALSE, n = "inf", per_cluster = TRUE){
     
     # Extract marker list
     marker_list <- list()
@@ -31,9 +32,20 @@ marker_list <- function(object, marker_genes, genes_only = FALSE, n = "inf"){
                 top_n_genes[[i]] <- marker_list[[i]]$gene
             }
         }
-        return(top_n_genes)
+        if (per_cluster == TRUE){
+            return(top_n_genes)
+        }
+        else {
+            top_n_genes <- unique(unname(unlist(top_n_genes)))
+        }
     }
     else {
-        return(marker_list)
+        if (per_cluster == TRUE){
+            return(marker_list)
+        }
+        else {
+            marker_list <- do.call(rbind, marker_list)
+            return(marker_list)
+        }
     }
 }

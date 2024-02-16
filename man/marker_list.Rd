@@ -4,7 +4,13 @@
 \alias{marker_list}
 \title{Extract marker genes as dataframe or gene list}
 \usage{
-marker_list(object, marker_genes, genes_only = FALSE, n = "inf")
+marker_list(
+  object,
+  marker_genes,
+  genes_only = FALSE,
+  n = "inf",
+  per_cluster = TRUE
+)
 }
 \arguments{
 \item{object}{Seurat object}
@@ -14,6 +20,8 @@ marker_list(object, marker_genes, genes_only = FALSE, n = "inf")
 \item{genes_only}{Logical if True only gene names are returned}
 
 \item{n}{Number of genes}
+
+\item{per_cluster}{Logical, if TRUE marker_list contains df for each cluster seperately}
 }
 \description{
 Extract marker genes as dataframe or gene list
