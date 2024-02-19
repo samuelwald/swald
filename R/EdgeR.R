@@ -164,3 +164,42 @@ run_qlf <- function(fit, contrast){
     }
     return(qlf)
 }
+
+
+#' Statistic for up and downregulated genes
+#' @param qlf Result from run_qlf
+#' @param p_value P-value, default is 0.05
+#' @param log_FC Fold change, default is 0.58
+ 
+
+stats_edgeR <- function(
+    qlf,
+    p_value = 0.05,
+    log_FC = 0.58
+    ){
+    
+    # Build dataframe
+    colnames <- names(qlf)
+    rownames <- c("Up", "Down")
+    df <- data.frame(matrix(ncol = length(colnames), nrow = length(rownames)))
+    rownames(df) <- rownames
+    colnames(df) <- colnames
+    
+    # Upregulated
+    sig_genes_up <- list()
+    for (i in names(qlf)){
+        sig_genes_up[[i]] <- topTags(qlf[[i]],sort.by = "PValue", p.value = p_value, n = Inf)$table
+        sig_genes_up[[i]] <-  sig_genes_up[[i]][sig_genes_up[[i]]$logFC > log_FC,]
+        df[1,i] <- nrow(sig_genes_up[[i]])
+    }
+
+    # Downregulated
+    sig_genes_down <- list()
+    for (i in names(qlf)){
+        sig_genes_down[[i]] <- topTags(qlf[[i]],sort.by = "PValue", p.value = p_value, n = Inf)$table
+        sig_genes_down[[i]] <-  sig_genes_down[[i]][sig_genes_down[[i]]$logFC < -log_FC,]
+        df[2,i] <- nrow(sig_genes_down[[i]])
+    }
+    return(df)
+    
+}
