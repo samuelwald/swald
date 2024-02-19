@@ -90,3 +90,62 @@ build_contrasts_cluster_timepoints <- function(names){
     return(df)
     
 }
+
+#' Extract results from DEG
+#' @param qlf Result from run_qlf
+#' @param p_value P-value, default is 0.05
+#' @param n Number of genes
+#' @param log_FC Fold change, default is 0.58
+#' @param direction Choose between up or downregulated genes
+#' @param genes_only Returns only the gene names
+#' @export 
+
+DEG_edgeR <- function(
+    qlf, 
+    p_value = 0.05, 
+    n = Inf, 
+    log_FC = 0.58, 
+    direction = "Up", 
+    genes_only = FALSE
+){
+    
+    # Up or Downregulated genes
+    sig_genes <- list()
+    
+    # Upregulated
+    if (isTRUE(direction == "Up")){
+        for (i in names(qlf)){
+            sig_genes[[i]] <- topTags(qlf[[i]],sort.by = "PValue", p.value = p_value, n = Inf)$table
+            sig_genes[[i]] <-  sig_genes[[i]][sig_genes[[i]]$logFC > log_FC,]
+        }
+    }
+    
+    # Downregulated
+    else if (isTRUE(direction == "Down")){
+        for (i in names(qlf)){
+            sig_genes[[i]] <- topTags(qlf[[i]],sort.by = "PValue", p.value = p_value, n = Inf)$table
+            sig_genes[[i]] <-  sig_genes[[i]][sig_genes[[i]]$logFC < -log_FC,]
+        }
+    }
+    
+    # Extract only certain number of genes
+    if (!isTRUE(n == Inf)){
+        for (i in names(qlf)){
+            sig_genes[[i]] <-  sig_genes[[i]][1:n,]
+        }    
+    }
+                
+                
+    # Extract genes only
+    if (isTRUE(genes_only == TRUE)){
+        for (i in names(qlf)){
+            sig_genes[[i]] <- rownames(sig_genes[[i]])
+        }
+        return(sig_genes)
+    }
+    else {
+        return(sig_genes)
+    }
+    
+    
+}
