@@ -149,3 +149,18 @@ DEG_edgeR <- function(
     
     
 }
+
+
+#' Run qlf for multiple tests
+
+#' @export 
+
+
+
+run_qlf <- function(fit, contrast){
+    qlf <- list()
+    for (i in colnames(contrast)){
+        qlf[[i]] <- glmQLFTest(fit, contrast = contrast[,i])
+    }
+    return(qlf)
+}
