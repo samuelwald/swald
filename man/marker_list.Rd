@@ -21,7 +21,7 @@ marker_list(
 
 \item{n}{Number of genes}
 
-\item{per_cluster}{Logical, if TRUE marker_list contains df for each cluster seperately}
+\item{per_cluster}{If TRUE marker_list contains df for each cluster}
 }
 \description{
 Extract marker genes as dataframe or gene list

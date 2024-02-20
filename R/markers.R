@@ -4,7 +4,7 @@
 #' @param genes_only Logical if True only gene names are returned
 #' @param n Number of genes
 #' @param marker_genes Results of FindAllMarkers
-#' @param per_cluster Logical, if TRUE marker_list contains df for each cluster seperately
+#' @param per_cluster If TRUE marker_list contains df for each cluster
 #' @export 
 
 marker_list <- function(object, marker_genes, genes_only = FALSE, n = "inf", per_cluster = TRUE){
