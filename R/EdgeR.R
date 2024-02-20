@@ -211,3 +211,59 @@ stats_edgeR <- function(
     return(df)
     
 }
+
+
+#' Run FGSEA with a list of DEG results
+#' 
+#' 
+#' @export 
+
+run_fgsea <- function(
+    species = "mouse", 
+    category, 
+    subcategory, 
+    DEG_results, 
+    min_size = 15, 
+    max_size = 500
+){
+    # Load and prepare geneset
+    msigdbr_df <- msigdbr(species = species, category = category, subcategory = subcategory)
+    msigdbr_list = split(x = msigdbr_df$gene_symbol, f = msigdbr_df$gs_name)
+    
+    # Build ranked gene list
+    ranked_genes <- list()
+    for (j in names(DEG_results)){
+        for (i in 1:nrow((DEG_results[[j]]))){
+            DEG_results[[j]]$rank[i] <- -log10(DEG_results[[j]]$PValue[i]) * sign(DEG_results[[j]]$logFC[i])
+        }
+        ranked_genes[[j]] <- DEG_results[[j]]$rank
+        names(ranked_genes[[j]]) <- rownames(DEG_results[[j]])
+        ranked_genes[[j]] <- sort(ranked_genes[[j]], decreasing = T)
+    }
+    
+    # Rund FGSEA
+    res <- list()
+    for (i in names(ranked_genes)){
+        res[[i]] <- suppressWarnings(fgsea(pathways = msigdbr_list, stats = ranked_genes[[i]], minSize = 10))
+    }
+    return(res)
+    
+}
+
+
+#' Rank genes by fc and p-value
+
+#' @export 
+
+ranked_genes <- function(DEG_results){
+    ranked_genes <- list()
+    for (j in names(DEG_results)){
+        for (i in 1:nrow((DEG_results[[j]]))){
+            DEG_results[[j]]$rank[i] <- -log10(DEG_results[[j]]$PValue[i]) * sign(DEG_results[[j]]$logFC[i])
+        }
+        ranked_genes[[j]] <- DEG_results[[j]]$rank
+        names(ranked_genes[[j]]) <- rownames(DEG_results[[j]])
+        ranked_genes[[j]] <- sort(ranked_genes[[j]], decreasing = T)
+    }
+    return(ranked_genes)
+}
