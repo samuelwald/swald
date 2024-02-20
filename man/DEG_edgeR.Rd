@@ -10,7 +10,8 @@ DEG_edgeR(
   n = Inf,
   log_FC = 0.58,
   direction = "Up",
-  genes_only = FALSE
+  genes_only = FALSE,
+  all_genes = FALSE
 )
 }
 \arguments{
