@@ -171,6 +171,7 @@ run_qlf <- function(fit, contrast){
 #' @param p_value P-value, default is 0.05
 #' @param log_FC Fold change, default is 0.58
  
+#' @export 
 
 stats_edgeR <- function(
     qlf,
