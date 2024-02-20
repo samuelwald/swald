@@ -267,3 +267,27 @@ ranked_genes <- function(DEG_results){
     }
     return(ranked_genes)
 }
+
+
+#' Plot GSEA table
+
+
+#' @export 
+
+plot_gsea_table <- function(
+    fgsea_res, 
+    msigdbr_list, 
+    ranked_genes
+){
+    plot <- list()
+    topPathwaysUp <- list()
+    topPathwaysDown <- list()
+    topPathways <- list()
+    for (i in names(fgsea_res)){
+        topPathwaysUp[[i]] <- fgsea_res[[i]][ES > 0][head(order(pval), n=10), pathway]
+        topPathwaysDown[[i]] <- fgsea_res[[i]][ES < 0][head(order(pval), n=10), pathway]
+        topPathways[[i]] <- c(topPathwaysUp[[i]], rev(topPathwaysDown[[i]]))
+        plot[[i]] <- plotGseaTable(msigdbr_list[topPathways[[i]]], ranked_genes[[i]], fgsea_res[[i]], gseaParam=0.5)
+    }
+    return(plot)
+}
