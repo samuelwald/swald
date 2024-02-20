@@ -270,7 +270,7 @@ ranked_genes <- function(DEG_results){
 
 
 #' Plot GSEA table
-
+#' @param fgsea_res List with FGSEA results
 
 #' @export 
 

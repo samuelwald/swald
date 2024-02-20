@@ -6,6 +6,9 @@
 \usage{
 plot_gsea_table(fgsea_res, msigdbr_list, ranked_genes)
 }
+\arguments{
+\item{fgsea_res}{List with FGSEA results}
+}
 \description{
 Plot GSEA table
 }
