@@ -106,9 +106,16 @@ DEG_edgeR <- function(
     n = Inf, 
     log_FC = 0.58, 
     direction = "Up", 
-    genes_only = FALSE
+    genes_only = FALSE,
+    all_genes = FALSE
 ){
-    
+    genes <- list()
+    if (isTRUE(all_genes == T)){
+        for (i in names(qlf)){
+            genes[[i]] <- topTags(qlf[[i]], n = Inf)$table
+        }
+        return(genes)
+    }
     # Up or Downregulated genes
     sig_genes <- list()
     
