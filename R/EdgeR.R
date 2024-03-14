@@ -241,7 +241,7 @@ run_fgsea <- function(
         ranked_genes[[j]] <- sort(ranked_genes[[j]], decreasing = T)
     }
     
-    # Rund FGSEA
+    # Run FGSEA
     res <- list()
     for (i in names(ranked_genes)){
         res[[i]] <- suppressWarnings(fgsea(pathways = msigdbr_list, stats = ranked_genes[[i]], minSize = 10))
@@ -260,6 +260,21 @@ ranked_genes <- function(DEG_results){
     for (j in names(DEG_results)){
         for (i in 1:nrow((DEG_results[[j]]))){
             DEG_results[[j]]$rank[i] <- -log10(DEG_results[[j]]$PValue[i]) * sign(DEG_results[[j]]$logFC[i])
+        }
+        ranked_genes[[j]] <- DEG_results[[j]]$rank
+        names(ranked_genes[[j]]) <- rownames(DEG_results[[j]])
+        ranked_genes[[j]] <- sort(ranked_genes[[j]], decreasing = T)
+    }
+    return(ranked_genes)
+}
+
+#' @export 
+
+ranked_genes_seurat <- function(DEG_results){
+    ranked_genes <- list()
+    for (j in names(DEG_results)){
+        for (i in 1:nrow((DEG_results[[j]]))){
+            DEG_results[[j]]$rank[i] <- -log10(DEG_results[[j]]$p_val_adj[i]) * sign(DEG_results[[j]]$avg_log2FC[i])
         }
         ranked_genes[[j]] <- DEG_results[[j]]$rank
         names(ranked_genes[[j]]) <- rownames(DEG_results[[j]])
