@@ -268,6 +268,8 @@ ranked_genes <- function(DEG_results){
     return(ranked_genes)
 }
 
+#' Rank genes by fc and p-value from seurat FindAllMarkers
+
 #' @export 
 
 ranked_genes_seurat <- function(DEG_results){
