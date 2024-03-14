@@ -250,6 +250,42 @@ run_fgsea <- function(
     
 }
 
+#' Run FGSEA with a list of DEG results from seurat
+#' 
+#' 
+#' @export 
+
+run_fgsea_seurat <- function(
+    species = "mouse", 
+    category, 
+    subcategory, 
+    DEG_results, 
+    min_size = 15, 
+    max_size = 500
+){
+    # Load and prepare geneset
+    msigdbr_df <- msigdbr(species = species, category = category, subcategory = subcategory)
+    msigdbr_list = split(x = msigdbr_df$gene_symbol, f = msigdbr_df$gs_name)
+    
+    # Build ranked gene list
+    ranked_genes <- list()
+    for (j in names(DEG_results)){
+        for (i in 1:nrow((DEG_results[[j]]))){
+            DEG_results[[j]]$rank[i] <- -log10(DEG_results[[j]]$p_val_adj[i]) * sign(DEG_results[[j]]$avg_log2FC[i])
+        }
+        ranked_genes[[j]] <- DEG_results[[j]]$rank
+        names(ranked_genes[[j]]) <- rownames(DEG_results[[j]])
+        ranked_genes[[j]] <- sort(ranked_genes[[j]], decreasing = T)
+    }
+    
+    # Run FGSEA
+    res <- list()
+    for (i in names(ranked_genes)){
+        res[[i]] <- suppressWarnings(fgsea(pathways = msigdbr_list, stats = ranked_genes[[i]], minSize = 10))
+    }
+    return(res)
+    
+}
 
 #' Rank genes by fc and p-value
 
@@ -268,7 +304,7 @@ ranked_genes <- function(DEG_results){
     return(ranked_genes)
 }
 
-#' Rank genes by fc and p-value from seurat FindAllMarkers
+#' Rank genes by fc and p-value from seurat
 
 #' @export 
 

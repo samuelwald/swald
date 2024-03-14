@@ -2,10 +2,10 @@
 % Please edit documentation in R/EdgeR.R
 \name{ranked_genes_seurat}
 \alias{ranked_genes_seurat}
-\title{Rank genes by fc and p-value from seurat FindAllMarkers}
+\title{Rank genes by fc and p-value from seurat}
 \usage{
 ranked_genes_seurat(DEG_results)
 }
 \description{
-Rank genes by fc and p-value from seurat FindAllMarkers
+Rank genes by fc and p-value from seurat
 }
